@@ -1,5 +1,16 @@
 import React from 'react';
 
+const getVisiblePokemons = (pokemons, filterText) => {
+  if ( pokemons && filterText ) {
+    console.log(pokemons, filterText);
+    pokemons.filter((pokemon) => {
+      return pokemon.name.toLowerCase().search(filterText.toLowerCase()) !== -1;
+    });
+  } else {
+    return [];
+  }
+}
+
 const PokemonsList = ({ pokemons }) => {
   return (
     <ul className="pokemons-wrapper">
