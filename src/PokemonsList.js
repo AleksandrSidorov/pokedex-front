@@ -1,28 +1,34 @@
 import React from 'react';
 
 const getVisiblePokemons = (pokemons, filterText) => {
-  if ( pokemons && filterText ) {
-    console.log(pokemons, filterText);
-    pokemons.filter((pokemon) => {
+  if ( pokemons !== [] && filterText !== '' ) {
+    return pokemons.filter((pokemon) => {
       return pokemon.name.toLowerCase().search(filterText.toLowerCase()) !== -1;
     });
+  } else if (pokemons !== [] && filterText === '') {
+    return pokemons;
   } else {
     return [];
   }
 }
 
-const PokemonsList = ({ pokemons }) => {
+const PokemonsList = ({ pokemons, nameFilter }) => {
+  const visiblePokemons = getVisiblePokemons(pokemons, nameFilter);
   return (
     <ul className="pokemons-wrapper">
       {
-        pokemons.map((pokemon, index) => {
+        visiblePokemons.map((pokemon, index) => {
           return (
             <li key={index}>
               <div>
                 {pokemon.id}
               </div>
               <div className="avatar__background">
-                <img className="avatar__img" src={pokemon.sprites.front_default} alt={pokemon.name} />
+                <img
+                  className="avatar__img"
+                  alt={pokemon.name}
+                  src={pokemon.sprites.front_default}
+                 />
               </div>
               <div className="pokemon-card__name">
                 {pokemon.name}

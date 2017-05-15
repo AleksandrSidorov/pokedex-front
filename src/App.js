@@ -17,7 +17,10 @@ class App extends Component {
       <div>
         <h1>Pokemons</h1>
         <SearchFiled />
-        <PokemonsList pokemons={this.props.pokemons} />
+        <PokemonsList
+          pokemons={this.props.pokemons}
+          nameFilter={this.props.nameFilter}
+        />
       </div>
     );
   }
@@ -26,6 +29,7 @@ class App extends Component {
 function mapStateToProps (state) {
   return {
     pokemons: state.pokemons.pokemons,
+    nameFilter: state.pokemons.nameFilter,
     isFetching: state.pokemons.isFetching
   }
 }
