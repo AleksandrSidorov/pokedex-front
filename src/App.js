@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 
 import { requestPokemons } from './actions';
 
+import SearchFiled from './SearchField';
 import PokemonsList from './PokemonsList';
 
 class App extends Component {
+
   componentDidMount() {
     this.props.requestPokemons();
   }
@@ -14,6 +16,7 @@ class App extends Component {
     return (
       <div>
         <h1>Pokemons</h1>
+        <SearchFiled />
         <PokemonsList pokemons={this.props.pokemons} />
       </div>
     );

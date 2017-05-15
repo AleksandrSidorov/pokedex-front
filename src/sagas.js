@@ -1,4 +1,4 @@
-import { put, call, all, race, fork, takeEvery } from 'redux-saga/effects';
+import { put, call, all, fork, take } from 'redux-saga/effects';
 import * as actions from './actions';
 import api from './api';
 
@@ -18,7 +18,10 @@ export function* getPokemons() {
 
 // Watchers
 export function* watchFetchPokemons() {
-  yield takeEvery(actions.POKEMONS_FETCH_REQUESTED, getPokemons);
+  while (true) {
+    yield take(actions.POKEMONS_FETCH_REQUESTED);
+    yield call(getPokemons);
+  }
 }
 
 // Export Root Saga
