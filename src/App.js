@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { requestPokemons } from './actions';
+import {
+  requestPokemons,
+  addTypeToFilter
+} from './actions';
 
 import SearchFiled from './SearchField';
+import FilterByType from './FilterByType';
 import PokemonsList from './PokemonsList';
 
 class App extends Component {
@@ -17,6 +21,7 @@ class App extends Component {
       <div>
         <h1>Pokemons</h1>
         <SearchFiled />
+        <FilterByType typeFilter={this.props.typeFilter} />
         <PokemonsList
           pokemons={this.props.pokemons}
           nameFilter={this.props.nameFilter}
@@ -30,13 +35,15 @@ function mapStateToProps (state) {
   return {
     pokemons: state.pokemons.pokemons,
     nameFilter: state.pokemons.nameFilter,
-    isFetching: state.pokemons.isFetching
+    isFetching: state.pokemons.isFetching,
+    typeFilter: state.pokemons.typeFilter,
   }
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    requestPokemons: () => dispatch(requestPokemons())
+    requestPokemons: () => dispatch(requestPokemons()),
+    addTypeToFilter: (typeName) => dispatch(addTypeToFilter(typeName)),
   }
 }
 

@@ -3,6 +3,8 @@ export const POKEMONS_FETCH_RECEIVED = 'POKEMONS_FETCH_RECEIVED';
 export const POKEMONS_FETCH_FAILED = 'POKEMONS_FETCH_FAILED';
 export const POKEMONS_FILTER_BY_NAME = 'POKEMONS_FILTER_BY_NAME';
 export const POKEMONS_FILTER_BY_TYPE = 'POKEMONS_FILTER_BY_TYPE';
+export const FILTER_TYPE_ADD = 'FILTER_TYPE_ADD';
+export const FILTER_TYPE_REMOVE = 'FILTER_TYPE_REMOVE';
 
 export function requestPokemons() {
   return {
@@ -35,5 +37,19 @@ export const filterPokemonsByType = (filter) => {
   return {
     type: POKEMONS_FILTER_BY_TYPE,
     filter
+  }
+}
+
+export const addTypeToFilter = (typeName) => {
+  return {
+    type: FILTER_TYPE_ADD,
+    typeName
+  }
+}
+
+export const removeTypeFromFilter = (typeName) => {
+  return {
+    type: FILTER_TYPE_REMOVE,
+    typeName
   }
 }
