@@ -4,7 +4,9 @@ import {
   POKEMONS_FETCH_REQUESTED,
   POKEMONS_FETCH_RECEIVED,
   POKEMONS_FILTER_BY_NAME,
-  POKEMONS_FILTER_BY_TYPE
+  POKEMONS_FILTER_BY_TYPE,
+  FILTER_TYPE_ADD,
+  FILTER_TYPE_REMOVE,
 } from './actions';
 
 const initialPokemonsState = {
@@ -36,6 +38,17 @@ function pokemons (state=initialPokemonsState, action) {
       return {
         ...state,
         typeFilter: action.filter
+      }
+    case FILTER_TYPE_ADD:
+      const resultFilter = state.typeFilter.indexOf(action.typeName) === -1 ? [...state.typeFilter, action.typeName] : [...state.typeFilter]
+      return {
+        ...state,
+        typeFilter: resultFilter
+      }
+    case FILTER_TYPE_REMOVE:
+      return {
+        ...state,
+        typeFilter: state.typeFilter.filter((item) => item !== action.typeName)
       }
     default:
       return state;

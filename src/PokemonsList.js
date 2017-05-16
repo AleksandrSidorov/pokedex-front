@@ -12,7 +12,7 @@ const getVisiblePokemons = (pokemons, filterText) => {
   }
 }
 
-const PokemonsList = ({ pokemons, nameFilter }) => {
+const PokemonsList = ({ pokemons, nameFilter, addTypeToFilter }) => {
   const visiblePokemons = getVisiblePokemons(pokemons, nameFilter);
   return (
     <ul className="pokemons-wrapper">
@@ -36,7 +36,14 @@ const PokemonsList = ({ pokemons, nameFilter }) => {
               <ul>
                 {
                   pokemon.types.map((type, index) => {
-                    return <li key={index}>{type.type.name}</li>
+                    return (
+                      <li 
+                        key={index}
+                        onClick={() => addTypeToFilter(type.type.name)}
+                      >
+                        {type.type.name}
+                      </li>
+                    )
                   })
                 }
               </ul>

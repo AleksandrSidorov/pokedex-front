@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 import {
   requestPokemons,
-  addTypeToFilter
+  addTypeToFilter,
+  removeTypeFromFilter,
 } from './actions';
 
 import SearchFiled from './SearchField';
@@ -21,10 +22,14 @@ class App extends Component {
       <div>
         <h1>Pokemons</h1>
         <SearchFiled />
-        <FilterByType typeFilter={this.props.typeFilter} />
+        <FilterByType
+          typeFilter={this.props.typeFilter}
+          removeTypeFromFilter={this.props.removeTypeFromFilter}
+        />
         <PokemonsList
           pokemons={this.props.pokemons}
           nameFilter={this.props.nameFilter}
+          addTypeToFilter={this.props.addTypeToFilter}
         />
       </div>
     );
@@ -44,6 +49,7 @@ function mapDispatchToProps (dispatch) {
   return {
     requestPokemons: () => dispatch(requestPokemons()),
     addTypeToFilter: (typeName) => dispatch(addTypeToFilter(typeName)),
+    removeTypeFromFilter: (typeName) => dispatch(removeTypeFromFilter(typeName)),
   }
 }
 
