@@ -29,6 +29,7 @@ class App extends Component {
         <PokemonsList
           pokemons={this.props.pokemons}
           nameFilter={this.props.nameFilter}
+          typeFilter={this.props.typeFilter}
           addTypeToFilter={this.props.addTypeToFilter}
         />
       </div>

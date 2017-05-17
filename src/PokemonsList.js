@@ -12,8 +12,26 @@ const getVisiblePokemons = (pokemons, filterText) => {
   }
 }
 
-const PokemonsList = ({ pokemons, nameFilter, addTypeToFilter }) => {
-  const visiblePokemons = getVisiblePokemons(pokemons, nameFilter);
+const getFilteredByType = (pokemons, typeFilter) => {
+  if ( pokemons !== [] && typeFilter.length > 0 ) {
+    return pokemons.filter( pokemon => {
+      console.log('typeFilter', typeFilter);
+      const flatTypes = pokemon.types.reduce( (prev, curr) => {
+        return [...prev, ...curr.type.name];
+      }, [])
+      console.log('flatTypes', flatTypes);
+      return true;
+    });
+  } else if (pokemons !== [] && typeFilter.length === 0) {
+    return pokemons;
+  } else {
+    return pokemons;
+  }
+}
+
+const PokemonsList = ({ pokemons, nameFilter, typeFilter, addTypeToFilter }) => {
+  let visiblePokemons = getVisiblePokemons(pokemons, nameFilter);
+  visiblePokemons = getFilteredByType(visiblePokemons, typeFilter);
   return (
     <ul className="pokemons-wrapper">
       {
@@ -37,7 +55,7 @@ const PokemonsList = ({ pokemons, nameFilter, addTypeToFilter }) => {
                 {
                   pokemon.types.map((type, index) => {
                     return (
-                      <li 
+                      <li
                         key={index}
                         onClick={() => addTypeToFilter(type.type.name)}
                       >
