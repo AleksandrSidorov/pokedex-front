@@ -6,6 +6,7 @@ import api from './api';
 export function* getPokemons() {
   try {
     const pokemonsList = yield call(api.getPokemons);
+    yield put(actions.getUrls(pokemonsList));
     const pokemons = yield all(pokemonsList.results.map(item => {
       return call(api.getPokemonInfo, item.name);
     }));

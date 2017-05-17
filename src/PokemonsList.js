@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Filter Pokemons by string in search input
 const getVisiblePokemons = (pokemons, filterText) => {
   if ( pokemons !== [] && filterText !== '' ) {
     return pokemons.filter((pokemon) => {
@@ -12,18 +13,15 @@ const getVisiblePokemons = (pokemons, filterText) => {
   }
 }
 
+// Filter Pokemons by selected types
 const getFilteredByType = (pokemons, typeFilter) => {
   if ( pokemons !== [] && typeFilter.length > 0 ) {
     return pokemons.filter( pokemon => {
-      console.log('typeFilter', typeFilter);
       const flatTypes = pokemon.types.reduce( (prev, curr) => {
-        return [...prev, ...curr.type.name];
+        return [...prev, curr.type.name];
       }, [])
-      console.log('flatTypes', flatTypes);
-      return true;
+      return typeFilter.every( el => flatTypes.indexOf(el) > -1);
     });
-  } else if (pokemons !== [] && typeFilter.length === 0) {
-    return pokemons;
   } else {
     return pokemons;
   }

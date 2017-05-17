@@ -7,13 +7,16 @@ import {
   POKEMONS_FILTER_BY_TYPE,
   FILTER_TYPE_ADD,
   FILTER_TYPE_REMOVE,
+  API_GET_URLS,
 } from './actions';
 
 const initialPokemonsState = {
   pokemons: [],
   nameFilter: '',
   typeFilter: [],
-  isFetching: false
+  isFetching: false,
+  prevUrl: null,
+  nextUrl: null
 }
 
 function pokemons (state=initialPokemonsState, action) {
@@ -40,7 +43,9 @@ function pokemons (state=initialPokemonsState, action) {
         typeFilter: action.filter
       }
     case FILTER_TYPE_ADD:
-      const resultFilter = state.typeFilter.indexOf(action.typeName) === -1 ? [...state.typeFilter, action.typeName] : [...state.typeFilter]
+      const resultFilter = state.typeFilter.indexOf(action.typeName) === -1
+        ? [...state.typeFilter, action.typeName]
+        : [...state.typeFilter]
       return {
         ...state,
         typeFilter: resultFilter
@@ -49,6 +54,12 @@ function pokemons (state=initialPokemonsState, action) {
       return {
         ...state,
         typeFilter: state.typeFilter.filter((item) => item !== action.typeName)
+      }
+    case API_GET_URLS:
+      return {
+        ...state,
+        prevUrl: action.prevUrl,
+        nextUrl: action.nextUrl
       }
     default:
       return state;
