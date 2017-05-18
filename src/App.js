@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import {
   requestPokemons,
+  requestMorePokemons,
   addTypeToFilter,
   removeTypeFromFilter,
 } from './actions';
@@ -10,6 +11,7 @@ import {
 import SearchFiled from './SearchField';
 import FilterByType from './FilterByType';
 import PokemonsList from './PokemonsList';
+import LoadMore from './LoadMore';
 
 class App extends Component {
 
@@ -32,6 +34,9 @@ class App extends Component {
           typeFilter={this.props.typeFilter}
           addTypeToFilter={this.props.addTypeToFilter}
         />
+        <LoadMore
+          requestMorePokemons={this.props.requestMorePokemons}
+        />
       </div>
     );
   }
@@ -49,6 +54,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     requestPokemons: () => dispatch(requestPokemons()),
+    requestMorePokemons: () => dispatch(requestMorePokemons()),
     addTypeToFilter: (typeName) => dispatch(addTypeToFilter(typeName)),
     removeTypeFromFilter: (typeName) => dispatch(removeTypeFromFilter(typeName)),
   }

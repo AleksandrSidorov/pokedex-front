@@ -14,6 +14,17 @@ function getPokemons() {
     .then(res => res.json());
 }
 
+function getMorePokemons(url) {
+  return fetch(url)
+    .then(res => {
+      if(res.ok) {
+        return res;
+      }
+      throw new Error('Network response was not ok.', res.status);
+    })
+    .then(res => res.json());
+}
+
 // Get Pokemon Info
 function getPokemonInfo(name="") {
 
@@ -29,5 +40,6 @@ function getPokemonInfo(name="") {
 
 export default {
   getPokemons,
+  getMorePokemons,
   getPokemonInfo
 };

@@ -1,4 +1,5 @@
 export const POKEMONS_FETCH_REQUESTED = 'POKEMONS_FETCH_REQUESTED';
+export const POKEMONS_FETCH_MORE_REQUESTED = 'POKEMONS_FETCH_MORE_REQUESTED';
 export const POKEMONS_FETCH_RECEIVED = 'POKEMONS_FETCH_RECEIVED';
 export const POKEMONS_FETCH_FAILED = 'POKEMONS_FETCH_FAILED';
 export const POKEMONS_FILTER_BY_NAME = 'POKEMONS_FILTER_BY_NAME';
@@ -10,6 +11,12 @@ export const API_GET_URLS = 'API_GET_URLS';
 export function requestPokemons() {
   return {
     type: POKEMONS_FETCH_REQUESTED
+  }
+}
+
+export function requestMorePokemons() {
+  return {
+    type: POKEMONS_FETCH_MORE_REQUESTED,
   }
 }
 
