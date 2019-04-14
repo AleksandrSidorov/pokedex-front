@@ -1,4 +1,4 @@
-import { put, call, all, fork, take } from 'redux-saga/effects';
+import { put, call, all, fork, take, select } from 'redux-saga/effects';
 import * as actions from './actions';
 import api from './api';
 
@@ -19,8 +19,8 @@ export function* getPokemons() {
 }
 
 export function* getMorePokemons() {
-  const nextUrl = getNextUrl();
   try {
+    const nextUrl = yield select(getNextUrl);
     const pokemonsList = yield call(api.getMorePokemons, nextUrl);
     yield put(actions.getUrls(pokemonsList));
     const pokemons = yield all(pokemonsList.results.map(item => {
