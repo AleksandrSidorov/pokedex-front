@@ -1,74 +1,57 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect'
+import { List } from 'antd';
+import PokemonCard from './PokemonCard';
+import { addTypeToFilter } from "./actions";
 
-// Filter Pokemons by string in search input
-const getVisiblePokemons = (pokemons, filterText) => {
-  if ( pokemons !== [] && filterText !== '' ) {
-    return pokemons.filter((pokemon) => {
-      return pokemon.name.toLowerCase().search(filterText.toLowerCase()) !== -1;
-    });
-  } else if (pokemons !== [] && filterText === '') {
-    return pokemons;
-  } else {
-    return [];
-  }
-}
-
-// Filter Pokemons by selected types
-const getFilteredByType = (pokemons, typeFilter) => {
-  if ( pokemons !== [] && typeFilter.length > 0 ) {
-    return pokemons.filter( pokemon => {
-      const flatTypes = pokemon.types.reduce( (prev, curr) => {
-        return [...prev, curr.type.name];
-      }, [])
-      return typeFilter.every( el => flatTypes.indexOf(el) > -1);
-    });
-  } else {
-    return pokemons;
-  }
-}
-
-const PokemonsList = ({ pokemons, nameFilter, typeFilter, addTypeToFilter }) => {
-  let visiblePokemons = getVisiblePokemons(pokemons, nameFilter);
-  visiblePokemons = getFilteredByType(visiblePokemons, typeFilter);
+const PokemonsList = ({ pokemons, addTypeToFilter }) => {
   return (
-    <ul className="pokemons-wrapper">
-      {
-        visiblePokemons.map((pokemon, index) => {
-          return (
-            <li key={index}>
-              <div>
-                {pokemon.id}
-              </div>
-              <div className="avatar__background">
-                <img
-                  className="avatar__img"
-                  alt={pokemon.name}
-                  src={pokemon.sprites.front_default}
-                 />
-              </div>
-              <div className="pokemon-card__name">
-                {pokemon.name}
-              </div>
-              <ul>
-                {
-                  pokemon.types.map((type, index) => {
-                    return (
-                      <li
-                        key={index}
-                        onClick={() => addTypeToFilter(type.type.name)}
-                      >
-                        {type.type.name}
-                      </li>
-                    )
-                  })
-                }
-              </ul>
-            </li>
-          )
-        })
+    <List
+      grid={{
+        gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 8,
+      }}
+      dataSource={pokemons}
+      renderItem={pokemon =>
+        (
+          <List.Item>
+            <PokemonCard
+              key={pokemon.id}
+              pokemon={pokemon}
+              addTypeToFilter={addTypeToFilter}
+            />
+          </List.Item>
+        )
       }
-    </ul>
+    />
   )
-}
+};
 
-export default PokemonsList;
+const getPokemons = createSelector(
+  state => state.pokemons.pokemons,
+  state => state.pokemons.nameFilter,
+  state => state.pokemons.typeFilter,
+  (pokemons, nameFilter, typeFilter) => {
+    const filteredPokemons = nameFilter ? pokemons.filter(pokemon => pokemon.name.includes(nameFilter)) : [...pokemons];
+    if (filteredPokemons !== [] && typeFilter.length > 0) {
+      return filteredPokemons.filter( pokemon => {
+        const flatTypes = pokemon.types.reduce( (prev, curr) => {
+          return [...prev, curr.type.name];
+        }, []);
+        return typeFilter.every( el => flatTypes.indexOf(el) > -1);
+      });
+    } else {
+      return filteredPokemons;
+    }
+  }
+);
+
+const mapStateToProps = state => ({
+  pokemons: getPokemons(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  addTypeToFilter: (typeName) => dispatch(addTypeToFilter(typeName)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PokemonsList);

@@ -1,11 +1,19 @@
 import React from 'react';
+import { connect } from "react-redux";
+import { Button } from 'antd';
+import { requestMorePokemons} from "./actions";
 
-const LoadMore = ({ requestMorePokemons }) => {
-  return (
-    <div>
-      <button onClick={() => requestMorePokemons()}>Load More</button>
-    </div>
-  )
-}
+const LoadMore = ({ requestMorePokemons }) => (
+  <Button
+    type={'primary'}
+    onClick={() => requestMorePokemons()}
+  >
+    {'Load More'}
+  </Button>
+);
 
-export default LoadMore;
+const mapDispatchToProps = dispatch => ({
+  requestMorePokemons: () => dispatch(requestMorePokemons()),
+});
+
+export default connect(null, mapDispatchToProps)(LoadMore);

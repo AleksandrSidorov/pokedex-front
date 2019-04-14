@@ -1,22 +1,30 @@
 import React from 'react';
+import { connect } from "react-redux";
+import { Tag } from 'antd';
+import { removeTypeFromFilter } from "./actions";
 
-const FilterByType = ({ typeFilter, removeTypeFromFilter }) => {
-  return (
-    <ul>
-      {
-        typeFilter.map( (filterName, index) => {
-          return (
-            <li
-              key={index}
-              onClick={() => removeTypeFromFilter(filterName)}
-            >
-              {filterName}
-            </li>
-          )
-        })
-      }
-    </ul>
-  )
-};
+const FilterByType = ({ typeFilter, removeTypeFromFilter }) => (
+  <>
+    {
+      typeFilter.map(filterName => (
+        <Tag
+          key={filterName}
+          closable
+          onClose={() => removeTypeFromFilter(filterName)}
+        >
+          {filterName}
+        </Tag>
+      ))
+    }
+  </>
+);
 
-export default FilterByType;
+const mapStateToProps = state => ({
+  typeFilter: state.pokemons.typeFilter,
+});
+
+const mapDispatchToProps = dispatch => ({
+  removeTypeFromFilter: (typeName) => dispatch(removeTypeFromFilter(typeName)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterByType);
